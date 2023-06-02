@@ -67,43 +67,58 @@ public class ChessGameBoard extends JPanel{
             				"initialized. This square cannot be cleared." );
         }
     }
+    // // ----------------------------------------------------------
+    // /**
+    //  * Gets all the white game pieces on the board.
+    //  *
+    //  * @return ArrayList<GamePiece> the pieces
+    //  */
+    // public ArrayList<ChessGamePiece> getAllWhitePieces(){
+    //     ArrayList<ChessGamePiece> whitePieces = new ArrayList<ChessGamePiece>();
+    //     for ( int i = 0; i < 8; i++ ){
+    //         for ( int j = 0; j < 8; j++ ){
+    //             if ( chessCells[i][j].getPieceOnSquare() != null
+    //                 && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
+    //                     ChessGamePiece.WHITE ){
+    //                 whitePieces.add( chessCells[i][j].getPieceOnSquare() );
+    //             }
+    //         }
+    //     }
+    //     return whitePieces;
+    // }
+    // // ----------------------------------------------------------
+    // /**
+    //  * Gets all the black pieces on the board
+    //  *
+    //  * @return ArrayList<GamePiece> the pieces
+    //  */
+    // public ArrayList<ChessGamePiece> getAllBlackPieces(){
+    //     ArrayList<ChessGamePiece> blackPieces = new ArrayList<ChessGamePiece>();
+    //     for ( int i = 0; i < 8; i++ ){
+    //         for ( int j = 0; j < 8; j++ ){
+    //             if ( chessCells[i][j].getPieceOnSquare() != null
+    //                 && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
+    //                     ChessGamePiece.BLACK ){
+    //                 blackPieces.add( chessCells[i][j].getPieceOnSquare() );
+    //             }
+    //         }
+    //     }
+    //     return blackPieces;
+    // }
     // ----------------------------------------------------------
-    /**
-     * Gets all the white game pieces on the board.
-     *
-     * @return ArrayList<GamePiece> the pieces
-     */
-    public ArrayList<ChessGamePiece> getAllWhitePieces(){
-        ArrayList<ChessGamePiece> whitePieces = new ArrayList<ChessGamePiece>();
+    // create a new method that returns all pieces of a certain color
+    public ArrayList<ChessGamePiece> getAllPiecesOfColor( int color ){
+        ArrayList<ChessGamePiece> pieces = new ArrayList<ChessGamePiece>();
         for ( int i = 0; i < 8; i++ ){
             for ( int j = 0; j < 8; j++ ){
                 if ( chessCells[i][j].getPieceOnSquare() != null
                     && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
-                        ChessGamePiece.WHITE ){
-                    whitePieces.add( chessCells[i][j].getPieceOnSquare() );
+                        color ){
+                    pieces.add( chessCells[i][j].getPieceOnSquare() );
                 }
             }
         }
-        return whitePieces;
-    }
-    // ----------------------------------------------------------
-    /**
-     * Gets all the black pieces on the board
-     *
-     * @return ArrayList<GamePiece> the pieces
-     */
-    public ArrayList<ChessGamePiece> getAllBlackPieces(){
-        ArrayList<ChessGamePiece> blackPieces = new ArrayList<ChessGamePiece>();
-        for ( int i = 0; i < 8; i++ ){
-            for ( int j = 0; j < 8; j++ ){
-                if ( chessCells[i][j].getPieceOnSquare() != null
-                    && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
-                        ChessGamePiece.BLACK ){
-                    blackPieces.add( chessCells[i][j].getPieceOnSquare() );
-                }
-            }
-        }
-        return blackPieces;
+        return pieces;
     }
     // ----------------------------------------------------------
     /**
@@ -223,6 +238,22 @@ public class ChessGameBoard extends JPanel{
             }
         }
     }
+
+    public boolean playerHasLegalMoves( int player ){
+        ArrayList<ChessGamePiece> pieces =
+            player == ChessGamePiece.WHITE ?
+                getAllPiecesOfColor( ChessGamePiece.WHITE ) :
+                getAllPiecesOfColor( ChessGamePiece.BLACK );
+        for ( ChessGamePiece piece : pieces ){
+            if ( piece.hasLegalMoves(this) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
     /**
      * Listens for clicks on BoardSquares.
      *

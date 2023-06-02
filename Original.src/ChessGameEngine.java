@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.awt.event.MouseEvent;
@@ -82,25 +81,25 @@ public class ChessGameEngine{
      *            the player to check
      * @return boolean true if the player does have legal moves, false otherwise
      */
-    public boolean playerHasLegalMoves( int playerNum ){
-        ArrayList<ChessGamePiece> pieces;
-        if ( playerNum == 1 ){
-            pieces = board.getAllWhitePieces();
-        }
-        else if ( playerNum == 2 ){
-            pieces = board.getAllBlackPieces();
-        }
-        else
-        {
-            return false;
-        }
-        for ( ChessGamePiece currPiece : pieces ){
-            if ( currPiece.hasLegalMoves( board ) ){
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean playerHasLegalMoves( int playerNum ){
+    //     ArrayList<ChessGamePiece> pieces;
+    //     if ( playerNum == 1 ){
+    //         pieces = board.getAllWhitePieces();
+    //     }
+    //     else if ( playerNum == 2 ){
+    //         pieces = board.getAllBlackPieces();
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    //     for ( ChessGamePiece currPiece : pieces ){
+    //         if ( currPiece.hasLegalMoves( board ) ){
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
     /**
      * Checks if the last-clicked piece is a valid piece (i.e. if it is
      * the correct color and if the user actually clicked ON a piece.)
@@ -213,20 +212,20 @@ public class ChessGameEngine{
      *         still valid game.
      */
     public int determineGameLost(){
-        if ( king1.isChecked( board ) && !playerHasLegalMoves( 1 ) ) // player 1
+        if ( king1.isChecked( board ) && !board.playerHasLegalMoves( 1 ) ) // player 1
         // loss
         {
             return 1;
         }
-        if ( king2.isChecked( board ) && !playerHasLegalMoves( 2 ) ) // player 2
+        if ( king2.isChecked( board ) && !board.playerHasLegalMoves( 2 ) ) // player 2
         // loss
         {
             return 2;
         }
-        if ( ( !king1.isChecked( board ) && !playerHasLegalMoves( 1 ) )
-            || ( !king2.isChecked( board ) && !playerHasLegalMoves( 2 ) )
-            || ( board.getAllWhitePieces().size() == 1 &&
-                board.getAllBlackPieces().size() == 1 ) ) // stalemate
+        if ( ( !king1.isChecked( board ) && !board.playerHasLegalMoves( 1 ) )
+            || ( !king2.isChecked( board ) && !board.playerHasLegalMoves( 2 ) )
+            || ( board.getAllPiecesOfColor( ChessGamePiece.WHITE ).size() == 1 &&
+                board.getAllPiecesOfColor( ChessGamePiece.BLACK ).size() == 1 ) ) // stalemate
         {
             return -1;
         }
