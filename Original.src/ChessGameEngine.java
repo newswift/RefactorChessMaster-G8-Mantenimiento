@@ -245,68 +245,83 @@ public class ChessGameEngine{
         BoardSquare squareClicked = (BoardSquare)e.getSource();
         ChessGamePiece pieceOnSquare = squareClicked.getPieceOnSquare();
         board.clearColorsOnBoard();
+        // first click - selecting a piece
         if ( firstClick ){
-            currentPiece = squareClicked.getPieceOnSquare();
-            if ( selectedPieceIsValid() ){
-                currentPiece.showLegalMoves( board );
-                squareClicked.setBackground( Color.GREEN );
-                firstClick = false;
-            }
-            else
-            {
-                if ( currentPiece != null ){
-                    JOptionPane.showMessageDialog(
-                        squareClicked,
-                        "You tried to pick up the other player's piece! "
-                            + "Get some glasses and pick a valid square.",
-                        "Illegal move",
-                        JOptionPane.ERROR_MESSAGE );
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(
-                        squareClicked,
-                        "You tried to pick up an empty square! "
-                            + "Get some glasses and pick a valid square.",
-                        "Illegal move",
-                        JOptionPane.ERROR_MESSAGE );
-                }
-            }
+            handleFirstClick( squareClicked );
+        }
+        // second click - moving a piece
+        else if ( pieceOnSquare == null ||
+                !pieceOnSquare.equals( currentPiece ) ) // moving
+        {
+                handleSecondClick( squareClicked );
+        }
+        // second click - deselecting a piece
+        else
+        {
+            firstClick = true;
+        }
+    }
+    /**
+     * Handles the first click of a user. Determines if the piece is valid, and
+     * if so, shows the legal moves of the piece.
+     *
+     * @param squareClicked
+     *            the square that was clicked
+     */
+    private void handleFirstClick( BoardSquare squareClicked ){
+        currentPiece = squareClicked.getPieceOnSquare();
+        if ( selectedPieceIsValid() ){
+            currentPiece.showLegalMoves( board );
+            squareClicked.setBackground( Color.GREEN );
+            firstClick = false;
         }
         else
         {
-            if ( pieceOnSquare == null ||
-                !pieceOnSquare.equals( currentPiece ) ) // moving
-            {
-                boolean moveSuccessful =
-                    currentPiece.move(
-                        board,
-                        squareClicked.getRow(),
-                        squareClicked.getColumn() );
-                if ( moveSuccessful ){
-                    checkGameConditions();
-                }
-                else
-                {
-                    int row = squareClicked.getRow();
-                    int col = squareClicked.getColumn();
-                    JOptionPane.showMessageDialog(
-                        squareClicked,
-                        "The move to row " + ( row + 1 ) + " and column "
-                            + ( col + 1 )
-                            + " is either not valid or not legal "
-                            + "for this piece. Choose another move location, "
-                            + "and try using your brain this time!",
-                        "Invalid move",
-                        JOptionPane.ERROR_MESSAGE );
-                }
-                firstClick = true;
+            if ( currentPiece != null ){
+                showErrorMessage(
+                    "You tried to pick up a piece that isn't yours! "
+                        + "Get some glasses and pick a valid piece.",
+                    "Illegal move" );
             }
             else
-            // user is just unselecting the current piece
             {
-                firstClick = true;
+                showErrorMessage(
+                    "You tried to pick up an empty square! "
+                        + "Get some glasses and pick a valid square.",
+                    "Illegal move" );
             }
         }
     }
+    /**
+     * Handles the second click of a user. Determines if the move is valid, and
+     * if so, moves the piece and checks game conditions.
+     *
+     * @param squareClicked
+     *            the square that was clicked
+     */
+    private void handleSecondClick( BoardSquare squareClicked ){
+        int row = squareClicked.getRow();
+        int col = squareClicked.getColumn();
+        boolean moveSuccessful =currentPiece.move(board,row,col);
+        if ( moveSuccessful ){
+            checkGameConditions();
+        }
+        else
+        {
+            showErrorMessage(
+                "You can't move the piece to row " + row + ", column " + col
+                    + "!",
+                "Illegal move" );
+        }
+        firstClick = true;
+    }
+
+    private void showErrorMessage( String message, String title ){
+        JOptionPane.showMessageDialog(
+            board.getParent(),
+            message,
+            title,
+            JOptionPane.ERROR_MESSAGE );
+    }
+
 }
