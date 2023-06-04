@@ -260,6 +260,12 @@ public class ChessGameEngine{
             firstClick = true;
         }
     }
+    //-------------------------------------------------
+    // Tecnica extrac method para el metodo determineActionFromSquareClick
+    // se crea el metodo handleFirstClick y el metodo handleSecondClick para
+    // que el metodo determineActionFromSquareClick sea mas facil de leer y de entender
+    // Author: Kevin Ramos Rivas
+    //-------------------------------------------------
     /**
      * Handles the first click of a user. Determines if the piece is valid, and
      * if so, shows the legal moves of the piece.

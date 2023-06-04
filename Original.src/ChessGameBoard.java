@@ -67,44 +67,7 @@ public class ChessGameBoard extends JPanel{
             				"initialized. This square cannot be cleared." );
         }
     }
-    // // ----------------------------------------------------------
-    // /**
-    //  * Gets all the white game pieces on the board.
-    //  *
-    //  * @return ArrayList<GamePiece> the pieces
-    //  */
-    // public ArrayList<ChessGamePiece> getAllWhitePieces(){
-    //     ArrayList<ChessGamePiece> whitePieces = new ArrayList<ChessGamePiece>();
-    //     for ( int i = 0; i < 8; i++ ){
-    //         for ( int j = 0; j < 8; j++ ){
-    //             if ( chessCells[i][j].getPieceOnSquare() != null
-    //                 && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
-    //                     ChessGamePiece.WHITE ){
-    //                 whitePieces.add( chessCells[i][j].getPieceOnSquare() );
-    //             }
-    //         }
-    //     }
-    //     return whitePieces;
-    // }
-    // // ----------------------------------------------------------
-    // /**
-    //  * Gets all the black pieces on the board
-    //  *
-    //  * @return ArrayList<GamePiece> the pieces
-    //  */
-    // public ArrayList<ChessGamePiece> getAllBlackPieces(){
-    //     ArrayList<ChessGamePiece> blackPieces = new ArrayList<ChessGamePiece>();
-    //     for ( int i = 0; i < 8; i++ ){
-    //         for ( int j = 0; j < 8; j++ ){
-    //             if ( chessCells[i][j].getPieceOnSquare() != null
-    //                 && chessCells[i][j].getPieceOnSquare().getColorOfPiece() ==
-    //                     ChessGamePiece.BLACK ){
-    //                 blackPieces.add( chessCells[i][j].getPieceOnSquare() );
-    //             }
-    //         }
-    //     }
-    //     return blackPieces;
-    // }
+
     // ----------------------------------------------------------
     // create a new method that returns all pieces of a certain color
     public ArrayList<ChessGamePiece> getAllPiecesOfColor( int color ){
@@ -238,7 +201,13 @@ public class ChessGameBoard extends JPanel{
             }
         }
     }
-
+     //-------------------------------------------------
+    // Tecnica Move Method 
+    // metodo movido de ChessGameEngine a ChessGameBoard ya que es mas
+    // apropiado que este metodo este en el tablero, ya que es el tablero
+    // el que se encarga de mover las piezas, no el motor del juego.
+    // Author: Kevin Ramos Rivas
+    //-------------------------------------------------
     public boolean playerHasLegalMoves( int player ){
         ArrayList<ChessGamePiece> pieces =
             player == ChessGamePiece.WHITE ?
