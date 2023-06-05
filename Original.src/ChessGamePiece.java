@@ -59,14 +59,14 @@ public abstract class ChessGamePiece{
         ChessGameBoard board,
         int row,
         int col,
-        int pieceColor ){
-        skipMoveGeneration = false;
-        this.pieceColor = pieceColor;
-        pieceImage = createImageByPieceType();
-        pieceRow = row;
-        pieceColumn = col;
-        if ( board.getCell( row, col ) != null ){
-            board.getCell( row, col ).setPieceOnSquare( this );
+        int pieceColor, String type){
+            skipMoveGeneration = false;
+            this.pieceColor = pieceColor;
+            pieceImage = new ImageLoader(type, pieceColor).createImageByPieceType();
+            pieceRow = row;
+            pieceColumn = col;
+            if ( board.getCell( row, col ) != null ){
+                board.getCell( row, col ).setPieceOnSquare( this );
         }
         possibleMoves = calculatePossibleMoves( board );
     }
@@ -92,10 +92,10 @@ public abstract class ChessGamePiece{
         int row,
         int col,
         int pieceColor,
-        boolean skipMoveGeneration ){
+        boolean skipMoveGeneration, String type ){
         this.skipMoveGeneration = skipMoveGeneration;
         this.pieceColor = pieceColor;
-        pieceImage = this.createImageByPieceType();
+        pieceImage = new ImageLoader(type, pieceColor).createImageByPieceType();
         pieceRow = row;
         pieceColumn = col;
         if ( board.getCell( row, col ) != null ){
@@ -407,7 +407,6 @@ public abstract class ChessGamePiece{
      * @return ImageIcon the image that represents this game piece, different
      *         for each piece.
      */
-    public abstract ImageIcon createImageByPieceType();
     /**
      * Return the ImageIcon as an Image.
      *

@@ -74,37 +74,6 @@ public class ChessGameEngine{
     public int getCurrentPlayer(){
         return currentPlayer;
     }
-    /**
-     * Determines if the requested player has legal moves.
-     *
-     * @param playerNum
-     *            the player to check
-     * @return boolean true if the player does have legal moves, false otherwise
-     */
-    // public boolean playerHasLegalMoves( int playerNum ){
-    //     ArrayList<ChessGamePiece> pieces;
-    //     if ( playerNum == 1 ){
-    //         pieces = board.getAllWhitePieces();
-    //     }
-    //     else if ( playerNum == 2 ){
-    //         pieces = board.getAllBlackPieces();
-    //     }
-    //     else
-    //     {
-    //         return false;
-    //     }
-    //     for ( ChessGamePiece currPiece : pieces ){
-    //         if ( currPiece.hasLegalMoves( board ) ){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-    /**
-     * Checks if the last-clicked piece is a valid piece (i.e. if it is
-     * the correct color and if the user actually clicked ON a piece.)
-     * @return boolean true if the piece is valid, false otherwise
-     */
     private boolean selectedPieceIsValid(){
         if ( currentPiece == null ) // user tried to select an empty square
         {

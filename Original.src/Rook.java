@@ -1,4 +1,4 @@
-import javax.swing.ImageIcon;
+
 import java.util.ArrayList;
 // -------------------------------------------------------------------------
 /**
@@ -26,7 +26,7 @@ public class Rook
      *            either GamePiece.WHITE, BLACK, or UNASSIGNED
      */
     public Rook( ChessGameBoard board, int row, int col, int color ){
-        super( board, row, col, color );
+        super( board, row, col, color,"Rook" );
     }
     /**
      * Calculates the possible moves for this Rook.
@@ -46,28 +46,7 @@ public class Rook
         allMoves.addAll( eastMoves );
         return allMoves;
     }
-    /**
-     * Creates an icon for this piece depending on the piece's color.
-     *
-     * @return ImageIcon the ImageIcon representation of this piece.
-     */
-    @Override
-    public ImageIcon createImageByPieceType(){
-        if ( getColorOfPiece() == ChessGamePiece.WHITE ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/WhiteRook.gif")
-            );            
-        }
-        else if ( getColorOfPiece() == ChessGamePiece.BLACK ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/BlackRook.gif")
-            );            
-        }
-        else
-        {
-            return new ImageIcon(
-                getClass().getResource("chessImages/default-Unassigned.gif")
-            );        
-        }
-    }
+    // Eliminacion de codigo duplicado y creacion de nueva clase ImageLoader que se encarga
+    // de cargar las imagenes de las piezas
+    // Author: Ramos Rivas Kevin
 }

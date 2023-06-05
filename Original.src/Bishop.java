@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 // -------------------------------------------------------------------------
 /**
  * Class to represent the Bishop piece.
@@ -23,7 +22,7 @@ public class Bishop extends ChessGamePiece{
      *            either GamePiece.WHITE, BLACK, or UNASSIGNED
      */
     public Bishop( ChessGameBoard board, int row, int col, int color ){
-        super( board, row, col, color );
+        super( board, row, col, color, "Bishop" );
     }
     /**
      * Calculates the possible moves for this piece. These are ALL the possible
@@ -46,27 +45,7 @@ public class Bishop extends ChessGamePiece{
         allMoves.addAll( southWestMoves );
         return allMoves;
     }
-    /**
-     * Creates an icon for this piece depending on the piece's color.
-     * 
-     * @return ImageIcon the ImageIcon representation of this piece.
-     */
-    @Override
-    public ImageIcon createImageByPieceType(){
-        if ( getColorOfPiece() == ChessGamePiece.WHITE ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/WhiteBishop.gif")
-            );            
-        }
-        else if ( getColorOfPiece() == ChessGamePiece.BLACK ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/BlackBishop.gif")
-            );
-        }
-        else{
-            return new ImageIcon(
-                getClass().getResource("chessImages/BlackBishop.gif")
-            );
-        }
-    }
+    // Eliminacion de codigo duplicado y creacion de nueva clase ImageLoader que se encarga
+    // de cargar las imagenes de las piezas
+    // Author: Ramos Rivas Kevin
 }
