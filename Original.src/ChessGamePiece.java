@@ -661,38 +661,65 @@ public abstract class ChessGamePiece{
      *            the board to check
      * @return true if it is an enemy piece, false if not
      */
+
+    /* Embold detecto que esta funcion era innecesariamente
+        larga , por lo que se reconoce como un "Long Method"
+        code smell y para solucionarlo aplicamos en parte
+        la tecnica "Replace temp with query" para evitar
+        una invocacion excesiva y valores temporales
+        innecesarios , Autor: Edgar Zenobio 
+    */
     public boolean isEnemy( ChessGameBoard board, int row, int col ){
-        if ( row > 7 || col > 7 || row < 0 || col < 0 ){
+        if (row > 7 || col > 7 || row < 0 || col < 0) {
             return false;
         }
-        ChessGamePiece enemyPiece =
-            board.getCell( row, col ).getPieceOnSquare() == null
-                ? null
-                : board.getCell( row, col ).getPieceOnSquare();
-        if ( enemyPiece == null
-            || this.getColorOfPiece() == ChessGamePiece.UNASSIGNED
-            || enemyPiece.getColorOfPiece() == ChessGamePiece.UNASSIGNED ){
+
+        if (row < 0 || row > 7 || col < 0 || col > 7) {
             return false;
         }
-        if ( this.getColorOfPiece() == ChessGamePiece.WHITE ){
-            if ( enemyPiece.getColorOfPiece() == ChessGamePiece.BLACK ){
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+
+        ChessGamePiece enemyPiece = board.getCell(row, col).getPieceOnSquare(); //Aqui se optimiza pues comprobaba nulos reiteradas veces
+
+        //Esta parte si se mantiene
+        if (enemyPiece == null || this.getColorOfPiece() == ChessGamePiece.UNASSIGNED
+                || enemyPiece.getColorOfPiece() == ChessGamePiece.UNASSIGNED) {
+            return false;
         }
-        else
-        {
-            if ( enemyPiece.getColorOfPiece() == ChessGamePiece.WHITE ){
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
+        //Esta parte es donde reeemplazamos con Query , evitando invocar valores temporales
+        // evitando usar if de manera innecesaria
+        return this.getColorOfPiece() != enemyPiece.getColorOfPiece();
+
+        /*
+         * ChessGamePiece enemyPiece =
+         * board.getCell( row, col ).getPieceOnSquare() == null
+         * ? null
+         * : board.getCell( row, col ).getPieceOnSquare();
+         * if ( enemyPiece == null
+         * || this.getColorOfPiece() == ChessGamePiece.UNASSIGNED
+         * || enemyPiece.getColorOfPiece() == ChessGamePiece.UNASSIGNED ){
+         * return false;
+         * }
+         * if ( this.getColorOfPiece() == ChessGamePiece.WHITE ){
+         * if ( enemyPiece.getColorOfPiece() == ChessGamePiece.BLACK ){
+         * return true;
+         * }
+         * else
+         * {
+         * return false;
+         * }
+         * }
+         * else
+         * {
+         * if ( enemyPiece.getColorOfPiece() == ChessGamePiece.WHITE ){
+         * return true;
+         * }
+         * else
+         * {
+         * return false;
+         * }
+         * }
+         */
     }
     // ----------------------------------------------------------
     /**
