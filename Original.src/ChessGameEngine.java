@@ -60,10 +60,7 @@ public class ChessGameEngine{
      * El Code Smell es Long Method y se usará el Extract Method
      * 
     */
-    /**
-     Katherine Ambrocio - Se detectó el Code Smell y se aplicó Extract Method
-     
-    */
+  
       /**
     public void reset(){
         firstClick = true;
@@ -82,8 +79,12 @@ public class ChessGameEngine{
     }
 
       */
+    /**
+     Katherine Ambrocio - Code Smell 1: Se detectó el Code Smell de tipo Long Method y se aplicó Extract Method
+     
+    */
     
-      public void reset() {
+    public void reset() {
         firstClick = true;
         currentPlayer = 1;
     
@@ -108,7 +109,7 @@ public class ChessGameEngine{
     private void addToGameLog(ChessPanel chessPanel, String message) {
         chessPanel.getGameLog().addToLog(message);
     } 
-    
+
     /**
      * Switches the turn to be the next player's turn.
      */
