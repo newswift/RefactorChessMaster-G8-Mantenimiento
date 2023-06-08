@@ -134,7 +134,7 @@ public class ChessGameBoard extends JPanel implements MouseListener { // Se impl
      * (Re)initializes this ChessGameBoard to its default layout with all 32
      * pieces added.
      */
-    public void initializeBoard() {
+    /*public void initializeBoard() {
         resetBoard(false);
         for (int i = 0; i < chessCells.length; i++) {
             for (int j = 0; j < chessCells[0].length; j++) {
@@ -172,7 +172,74 @@ public class ChessGameBoard extends JPanel implements MouseListener { // Se impl
                 this.add(chessCells[i][j]);
             }
         }
+    } */
+
+    //Correcion de un code smell de tipo long method 
+    //autor: Miguel Otoya
+    public void initializeBoard() {
+        resetBoard(false);  // Restablece el tablero a su estado inicial
+        initializePieces(); // Inicializa las piezas del ajedrez
+        initializeBoardSquares(); // Inicializa las casillas del tablero
     }
+    
+    // Inicializa las piezas del ajedrez, incluyendo los peones y las filas principales
+    private void initializePieces() {
+        initializePawns(); // Inicializa los peones en las filas 1 y 6
+        initializeMainRows(); // Inicializa las filas principales (0 y 7) con las piezas restantes
+    }
+    
+    // Inicializa los peones en las filas 1 y 6
+    private void initializePawns() {
+        for (int j = 0; j < chessCells[0].length; j++) {
+            // Crea y agrega un nuevo peón negro en la posición (1, j)
+            chessCells[1][j] = new BoardSquare(1, j, new Pawn(this, 1, j, ChessGamePiece.BLACK));
+            // Crea y agrega un nuevo peón blanco en la posición (6, j)
+            chessCells[6][j] = new BoardSquare(6, j, new Pawn(this, 6, j, ChessGamePiece.WHITE));
+        }
+    }
+    
+    // Inicializa las filas principales (0 y 7) con las piezas restantes
+    private void initializeMainRows() {
+        int[] mainRows = { 0, 7 }; // Índices de las filas principales
+        int[] mainPieces = { ChessGamePiece.BLACK, ChessGamePiece.WHITE }; // Colores de las piezas
+    
+        for (int i : mainRows) {
+            int colNum = mainPieces[i == 0 ? 0 : 1]; // Determina el color de las piezas en función de la fila
+            // Crea y agrega las piezas restantes en las posiciones correspondientes
+            chessCells[i][0] = new BoardSquare(i, 0, new Rook(this, i, 0, colNum));
+            chessCells[i][7] = new BoardSquare(i, 7, new Rook(this, i, 7, colNum));
+            chessCells[i][1] = new BoardSquare(i, 1, new Knight(this, i, 1, colNum));
+            chessCells[i][6] = new BoardSquare(i, 6, new Knight(this, i, 6, colNum));
+            chessCells[i][2] = new BoardSquare(i, 2, new Bishop(this, i, 2, colNum));
+            chessCells[i][5] = new BoardSquare(i, 5, new Bishop(this, i, 5, colNum));
+            chessCells[i][3] = new BoardSquare(i, 3, new King(this, i, 3, colNum));
+            chessCells[i][4] = new BoardSquare(i, 4, new Queen(this, i, 4, colNum));
+        }
+    }
+    
+    // Inicializa las casillas del tablero, asignando un objeto BoardSquare a cada posición
+    private void initializeBoardSquares() {
+        for (int i = 0; i < chessCells.length; i++) {
+            for (int j = 0; j < chessCells[0].length; j++) {
+                if (chessCells[i][j] == null) {
+                    // Crea y agrega una casilla vacía en la posición (i, j)
+                    chessCells[i][j] = new BoardSquare(i, j, null);
+                }
+    
+                // Configura el color de fondo de la casilla en función de su posición
+                if ((i + j) % 2 == 0) {
+                    chessCells[i][j].setBackground(Color.WHITE);
+                } else {
+                    chessCells[i][j].setBackground(Color.BLACK);
+                }
+    
+                chessCells[i][j].addMouseListener(this); // Agrega un MouseListener a la casilla
+                this.add(chessCells[i][j]); // Agrega la casilla al contenedor principal (tablero)
+            }
+        }
+    }
+    
+    
 
     // ----------------------------------------------------------
     /**
