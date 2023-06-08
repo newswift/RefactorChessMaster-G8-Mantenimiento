@@ -41,7 +41,7 @@ public class ChessGameEngine{
     // ----------------------------------------------------------
     /**
      * Resets the game to its original state.
-     */
+   
     public void reset(){
         firstClick = true;
         currentPlayer = 1;
@@ -57,6 +57,58 @@ public class ChessGameEngine{
                 + "game has been started. Player 1 (white) will play "
                 + "against Player 2 (black). BEGIN!" );
     }
+     * El Code Smell es Long Method y se usará el Extract Method
+     * 
+    */
+    /**
+     Katherine Ambrocio - Se detectó el Code Smell y se aplicó Extract Method
+     
+    */
+      /**
+    public void reset(){
+        firstClick = true;
+        currentPlayer = 1;
+        ( (ChessPanel)board.getParent() ).getGraveyard( 1 ).clearGraveyard();
+        ( (ChessPanel)board.getParent() ).getGraveyard( 2 ).clearGraveyard();
+        ( (ChessPanel)board.getParent() ).getGameBoard().initializeBoard();
+        ( (ChessPanel)board.getParent() ).revalidate();
+        this.king1 = (King)board.getCell( 7, 3 ).getPieceOnSquare();
+        this.king2 = (King)board.getCell( 0, 3 ).getPieceOnSquare();
+        ( (ChessPanel)board.getParent() ).getGameLog().clearLog();
+        ( (ChessPanel)board.getParent() ).getGameLog().addToLog(
+            "A new chess "
+                + "game has been started. Player 1 (white) will play "
+                + "against Player 2 (black). BEGIN!" );
+    }
+
+      */
+    
+      public void reset() {
+        firstClick = true;
+        currentPlayer = 1;
+    
+        ChessPanel chessPanel = (ChessPanel)board.getParent();
+        chessPanel.getGraveyard(1).clearGraveyard();
+        chessPanel.getGraveyard(2).clearGraveyard();
+        chessPanel.getGameBoard().initializeBoard();
+        chessPanel.revalidate();
+    
+        initializeKings();
+    
+        chessPanel.getGameLog().clearLog();
+        addToGameLog(chessPanel, "A new chess game has been started. Player 1 (white) will play against Player 2 (black). BEGIN!");
+    }
+    
+    private void initializeKings() {
+        ChessPanel chessPanel = (ChessPanel)board.getParent();
+        this.king1 = (King)board.getCell(7, 3).getPieceOnSquare();
+        this.king2 = (King)board.getCell(0, 3).getPieceOnSquare();
+    }
+    
+    private void addToGameLog(ChessPanel chessPanel, String message) {
+        chessPanel.getGameLog().addToLog(message);
+    } 
+    
     /**
      * Switches the turn to be the next player's turn.
      */
